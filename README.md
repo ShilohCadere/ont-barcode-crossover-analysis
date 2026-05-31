@@ -1,8 +1,14 @@
 # Barcode Crossover Analysis
 
-I built this workflow to investigate possible barcode crossover in Oxford Nanopore sequencing data. The analysis compares reads assigned to a D5405 barcode before and after a protocol change intended to reduce crossover.
+This workflow was built to investigate possible barcode crossover in Oxford Nanopore sequencing data. The analysis compares reads assigned to a D5405 barcode before and after a protocol change intended to reduce crossover.
 
-The goal was to answer a practical question: did the protocol change reduce the amount of non-D5405 sequence showing up in the D5405 barcode?
+The goal was to answer a practical question:
+
+> Did the protocol change reduce the amount of non-D5405 sequence showing up in the D5405 barcode?
+
+## Findings
+
+Estimated crossover decreased from 0.0878% before the protocol change to 0.0141% after the protocol change. A small amount of barcode crossover was present in the original run, and the protocol changes reduced crossover by approximately six-fold.
 
 ## Approach
 
