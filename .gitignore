@@ -4,4 +4,11 @@ data/
 *.fa
 *.fasta
 *.fai
-results/
+# Results
+results/*
+!results/nextflow/
+results/nextflow/*
+!results/nextflow/crossover_summary.tsv
+# Nextflow
+.nextflow*
+work/
