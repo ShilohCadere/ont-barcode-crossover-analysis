@@ -1,76 +1,69 @@
 # Barcode Crossover Analysis
 
-This workflow was built to investigate possible barcode crossover in Oxford Nanopore sequencing data. The analysis compares reads assigned to a D5405 barcode before and after a protocol change intended to reduce crossover.
+This project demonstrates a reproducible bioinformatics workflow for quantifying barcode crossover in Oxford Nanopore sequencing data. Using Nextflow, Python, samtools, and minimap2, the workflow compares sequencing runs before and after a protocol change to estimate whether non-target sequence carryover was reduced.
 
-The goal was to answer a practical question:
+## Objective
 
-> Did the protocol change reduce the amount of non-D5405 sequence showing up in the D5405 barcode?
+Determine whether a protocol modification reduced the amount of non-D5405 sequence detected within reads assigned to the D5405 barcode.
 
 ## Findings
 
-Estimated crossover decreased from 0.0878% before the protocol change to 0.0141% after the protocol change. A small amount of barcode crossover was present in the original run, and the protocol changes reduced crossover by approximately six-fold.
+Estimated barcode crossover decreased from **0.0878%** before the protocol change to **0.0141%** afterward.
 
-## Approach
+The analysis indicates that low-level barcode crossover was present in the original run and that the protocol modification reduced estimated crossover by approximately **six-fold**.
 
-The input files were unaligned BAM files from two D5405 barcode runs:
+## Workflow
 
-- before protocol change
-- after protocol change
+The analysis begins with two unaligned Oxford Nanopore BAM files representing sequencing runs before and after the protocol change.
 
-The workflow:
+The workflow performs the following steps:
 
-1. Converts each BAM file to FASTQ
-2. Aligns reads to a combined reference with minimap2
-3. Counts primary alignments by reference
-4. Treats non-D5405 alignments as estimated barcode crossover
-5. Compares crossover before and after the protocol change
+1. Convert unaligned BAM files to FASTQ using samtools.
+2. Align reads to a combined reference using minimap2.
+3. Count primary alignments for each reference sequence.
+4. Calculate estimated barcode crossover by treating non-D5405 alignments as crossover events.
+5. Generate a summary table and visualization comparing both runs.
 
 The combined reference contains:
 
 - D5405
-- Homo sapiens
-- Oryza sativa
+- *Homo sapiens*
+- *Oryza sativa*
 - Lambda phage
 
 ## Results
 
-| Run | D5405 reads | Human | Rice | Lambda | Non-D5405 reads | Estimated crossover |
-|---|---:|---:|---:|---:|---:|---:|
-| Before protocol change | 93,334 | 17 | 29 | 36 | 82 | 0.0878% |
-| After protocol change | 99,630 | 5 | 4 | 5 | 14 | 0.0141% |
+| Run | D5405 | Human | Rice | Lambda | Non-D5405 | Estimated Crossover |
+|------|-------:|------:|-----:|--------:|----------:|--------------------:|
+| Before | 93,334 | 17 | 29 | 36 | 82 | 0.0878% |
+| After | 99,630 | 5 | 4 | 5 | 14 | 0.0141% |
 
-Based on this analysis, the protocol change appears to have reduced estimated barcode crossover from 0.0878% to 0.0141%, or about a 6-fold reduction.
+## Biological Interpretation
 
-## Interpretation
+Nearly all reads assigned to the D5405 barcode aligned back to the expected reference in both sequencing runs.
 
-Most reads assigned to the D5405 barcode aligned back to D5405 in both runs. The original run had a small but detectable number of reads aligning to the other multiplexed references. After the protocol change, those non-D5405 alignments dropped across human, rice, and lambda.
+The original dataset contained a small number of reads aligning to human, rice, and lambda references, consistent with low-level barcode crossover. Following the protocol modification, non-D5405 alignments decreased across all reference genomes, suggesting the protocol successfully reduced crossover.
 
-This supports Felix's concern that low-level crossover was present in the original run and suggests the protocol change reduced it substantially.
-
-## Workflow
-
-The reproducible workflow is implemented in Nextflow:
+## Running the Workflow
 
 ```bash
 nextflow run workflow/main.nf
 ```
 
-The workflow writes outputs to:
+Primary outputs are written to:
 
-```text
+```
 results/nextflow/
 ```
 
 Key output files:
 
-```text
-results/nextflow/crossover_summary.tsv
-plots/crossover_percent_before_after.png
-```
+- `results/nextflow/crossover_summary.tsv`
+- `plots/crossover_percent_before_after.png`
 
 ## Repository Structure
 
-```text
+```
 .
 ├── data/
 │   ├── references/
@@ -90,32 +83,28 @@ plots/crossover_percent_before_after.png
 └── README.md
 ```
 
-Large sequencing and reference files are excluded from version control.
+Large sequencing datasets, reference genomes, and intermediate workflow files are excluded from version control.
 
-## Inputs
+## Input Files
 
-Place reference FASTA files here:
+Reference FASTA files should be placed in:
 
-```text
+```
 data/references/
 ```
 
-Place unaligned BAM files here:
+Input BAM files should be placed in:
 
-```text
+```
 data/unaligned_bams/
 ```
 
-Expected BAM files:
+Example input files:
 
-```text
-bc_zymo_3a_26-124-0051.subsampled_100000.bam
-bc_zymo_1b_26-124-0070.subsampled_100000.bam
-```
+- `bc_zymo_3a_26-124-0051.subsampled_100000.bam`
+- `bc_zymo_1b_26-124-0070.subsampled_100000.bam`
 
 ## Software
-
-This workflow uses:
 
 - Nextflow
 - samtools
@@ -123,11 +112,31 @@ This workflow uses:
 - Python 3
 - matplotlib
 
+## Skills Demonstrated
+
+- Nextflow workflow development
+- Oxford Nanopore sequencing analysis
+- Sequence alignment with minimap2
+- BAM/FASTQ processing with samtools
+- Python workflow automation
+- Data summarization and visualization
+- Reproducible bioinformatics pipelines
+
 ## Notes
 
-Development and testing were performed in GitHub Codespaces. During testing, subset references were used because indexing the full human reference exceeded available Codespaces resources.
+Development and testing were performed in GitHub Codespaces. During development, subset reference genomes were used because indexing the full human genome exceeded available Codespaces resources.
 
-The workflow is written so the same analysis can be run with full references in an environment with sufficient memory.
+The workflow is designed so the same analysis can be performed with full reference genomes in an environment with sufficient computational resources.
+
+## Future Improvements
+
+- Support parameterized reference inputs through Nextflow configuration.
+- Generate plots directly within the Nextflow workflow.
+- Add additional alignment quality metrics to the summary report.
+- Containerize the workflow for fully portable execution.
 
 ## Author
-### Shiloh Cadere
+
+**Shiloh Cadere**
+
+Bioinformatics professional specializing in NGS workflows, reproducible pipeline development, data validation, and laboratory data systems.
