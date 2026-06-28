@@ -44,6 +44,8 @@ Nearly all reads assigned to the D5405 barcode aligned back to the expected refe
 
 The original dataset contained a small number of reads aligning to human, rice, and lambda references, consistent with low-level barcode crossover. Following the protocol modification, non-D5405 alignments decreased across all reference genomes, suggesting the protocol successfully reduced crossover.
 
+These findings suggest that low-level barcode crossover was present in the original sequencing run and that the protocol modification substantially reduced it.
+
 ## Running the Workflow
 
 ```bash
