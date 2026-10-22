@@ -167,11 +167,13 @@ Analytical outputs are translated into measurable biological conclusions while p
 
 ---
 
+## Validation and result provenance
+
+The numerical before/after values above are documented demonstration results, not independently re-computed in this documentation review. The repository README does not provide a linked automated test run confirming those percentages, and this project should not be presented as a clinically validated protocol improvement. Re-run the pipeline with the stated inputs and inspect its generated tables before treating the numbers as independently reproduced.
+
 ## Testing
 
-This project emphasizes deterministic workflow execution through reproducible sequencing analysis.
-
-Identical sequencing inputs produce consistent alignment summaries, barcode crossover estimates, and visualizations across repeated executions.
+The workflow is designed for repeatable analysis, but repeatability is a design objective rather than proof that the example results were re-run successfully here. No automated test or CI result is asserted in this README.
 
 ---
 
