@@ -188,6 +188,11 @@ Future development will continue to prioritize reproducible workflow design, mai
 
 ---
 
+## Related Portfolio Work
+
+- [Clinical NGS Workflow](https://github.com/ShilohCadere/clinical-ngs-workflow) is a separate Nextflow portfolio example focused on paired-end short-read processing, not an integrated dependency.
+- [Clinical NGS Review](https://github.com/ShilohCadere/clinical-ngs-review) focuses on post-processing QC review, rather than barcode crossover estimation.
+
 ## Technologies Used
 
 Nextflow • Python • samtools • minimap2 • matplotlib
