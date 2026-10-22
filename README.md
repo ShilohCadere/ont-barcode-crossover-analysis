@@ -169,7 +169,7 @@ Analytical outputs are translated into measurable biological conclusions while p
 
 ## Validation and result provenance
 
-The numerical before/after values above are documented demonstration results, not independently re-computed in this documentation review. The repository README does not provide a linked automated test run confirming those percentages, and this project should not be presented as a clinically validated protocol improvement. Re-run the pipeline with the stated inputs and inspect its generated tables before treating the numbers as independently reproduced.
+The committed [crossover summary TSV](results/nextflow/crossover_summary.tsv) contains 82 unexpected-reference alignments among 93,416 primary mapped alignments before (0.0878%) and 14 among 99,644 after (0.0141%). The displayed percentages and approximately 6.2-fold difference were independently recalculated from those saved counts. This verifies the summary arithmetic, **not** the upstream alignment results or the causal effect of the protocol change. The BAM inputs and reference named in `workflow/main.nf` were not accessible at their specified repository paths during this review, so the complete Nextflow analysis was not independently rerun. These are demonstration results, not clinical validation.
 
 ## Testing
 
